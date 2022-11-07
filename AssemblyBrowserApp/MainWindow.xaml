@@ -6,8 +6,12 @@
         xmlns:local="clr-namespace:AssemblyBrowserApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <DockPanel LastChildFill="False">
-        <TextBox x:Name="tbAsseblyPath" TextWrapping="Wrap" Text="TextBox" DockPanel.Dock="Top" Height="22" Width="652"/>
-
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top" Height="45" VerticalAlignment="Top">
+            <Button x:Name="btnSearch" Content="Выбрать" Height="22" Width="70" DockPanel.Dock="Right" VerticalAlignment="Top" Margin="10"/>
+            <TextBox x:Name="tbAsseblyPath" Text="" Height="22" DockPanel.Dock="Top" VerticalAlignment="Top" Margin="10"/>
+        </DockPanel>
+        <Button x:Name="btnApply" Content="Применить" DockPanel.Dock="Right" Height="22" Width="70" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10"/>
+        <TreeView x:Name="tvAssemblyBrowser" Margin="10"/>
     </DockPanel>
 </Window>
