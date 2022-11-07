@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:AssemblyBrowserApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <DockPanel LastChildFill="False">
+        <TextBox x:Name="tbAsseblyPath" TextWrapping="Wrap" Text="TextBox" DockPanel.Dock="Top" Height="22" Width="652"/>
 
-    </Grid>
+    </DockPanel>
 </Window>
