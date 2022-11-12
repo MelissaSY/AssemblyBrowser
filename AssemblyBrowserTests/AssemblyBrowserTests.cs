@@ -11,14 +11,12 @@ namespace AssemblyBrowserTests
 
         [Test]
         public void Test1()
-        {
-            MethodInformator methodInformator = new(this.GetType().GetMethod("Test1"));
-            Assert.Pass(methodInformator.ToString());
-        }
+        {        }
         [Test]
         public void ExtensionMethodTest()
         {
             AssemblyInformator informator = new AssemblyInformator(Assembly.GetExecutingAssembly().Location);
+            AssemblyInformator assembly = new AssemblyInformator("D:\\5 sem\\ÑÏÏ\\ÑÏÏ\\ËÐ\\ëð1\\TracerDemonstrationApp\\bin\\Debug\\net6.0\\TracerDemonstrationApp.dll");
         }
     }
 }
