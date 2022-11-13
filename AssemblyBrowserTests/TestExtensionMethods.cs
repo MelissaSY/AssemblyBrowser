@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AssemblyBrowserTests
+﻿namespace AssemblyBrowserTests
 {
+    public class A<T, L>
+    {
+
+    }
+    public enum TestEnum
+    {
+        TEST_1,
+        TEST_2
+    }
+    public struct TestStruct
+    {
+        public int Value;
+        private TestEnum test;
+    }
     public static class TestExtensionMethods
     {
         public static string GetFullname(this TestNameClass testName)
@@ -17,6 +24,13 @@ namespace AssemblyBrowserTests
         {
 
         }
+        private static readonly (int, char, decimal, string, byte, bool, uint, long, double, float, DateTime)[]? values;
+    }
+    public class TestPrivate
+    {
+        private string someLine = "";
+        private class NestedClass { };
+
     }
     public class TestNameClass
     {

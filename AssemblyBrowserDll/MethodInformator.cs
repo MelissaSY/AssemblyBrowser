@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿using System.Reflection;
 
 namespace AssemblyBrowserDll
 {
@@ -43,10 +37,10 @@ namespace AssemblyBrowserDll
         public override string ToString()
         {
             string parametersType = "";
-            if(_parameters.Length > 0)
+            if (_parameters.Length > 0)
             {
                 parametersType = _parameters[0].ParameterType.ToString();
-                for(int i= 1; i < _parameters.Length; i++)
+                for (int i = 1; i < _parameters.Length; i++)
                 {
                     parametersType += $", {_parameters[i].ParameterType}";
                 }

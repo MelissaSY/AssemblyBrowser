@@ -9,8 +9,8 @@ namespace AssemblyBrowserDll
         public List<TypeInformator> NoNamespaceTypes { get; }
         private string _exceptionMessage;
         public string ExceptionMessage { get { return _exceptionMessage; } }
-        
-        public AssemblyInformator(string path):this()
+
+        public AssemblyInformator(string path) : this()
         {
             ChangeAssembly(path);
         }
@@ -29,14 +29,14 @@ namespace AssemblyBrowserDll
                 Dictionary<string, List<TypeInformator>> namespaceTypes = new Dictionary<string, List<TypeInformator>>();
                 Dictionary<Type, TypeInformator> Types = new Dictionary<Type, TypeInformator>();
                 List<Type> types = assembly.GetTypes().ToList();
-                foreach(Type type in types)
+                foreach (Type type in types)
                 {
                     Types.Add(type, new TypeInformator(type));
                 }
-                foreach (KeyValuePair <Type, TypeInformator> type in Types)
+                foreach (KeyValuePair<Type, TypeInformator> type in Types)
                 {
                     var extensionMethods = type.Value.GetExtensionMethods();
-                    foreach(KeyValuePair<Type, List<MethodInformator>> typeExtensions in extensionMethods)
+                    foreach (KeyValuePair<Type, List<MethodInformator>> typeExtensions in extensionMethods)
                     {
                         if (Types.ContainsKey(typeExtensions.Key))
                         {
@@ -46,7 +46,7 @@ namespace AssemblyBrowserDll
                 }
                 foreach (KeyValuePair<Type, TypeInformator> type in Types)
                 {
-                    if(type.Key.Namespace != null)
+                    if (type.Key.Namespace != null)
                     {
                         if (!namespaceTypes.ContainsKey(type.Key.Namespace))
                         {
@@ -59,12 +59,12 @@ namespace AssemblyBrowserDll
                         NoNamespaceTypes.Add(type.Value);
                     }
                 }
-                foreach(KeyValuePair<string, List<TypeInformator>> Namespace in namespaceTypes)
+                foreach (KeyValuePair<string, List<TypeInformator>> Namespace in namespaceTypes)
                 {
                     namespaces.Add(new NamespaceInformator(Namespace.Key, Namespace.Value));
                 }
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 _exceptionMessage = e.Message;
             }

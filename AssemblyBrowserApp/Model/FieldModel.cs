@@ -1,10 +1,6 @@
 ﻿using AssemblyBrowserDll;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization.Formatters;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace AssemblyBrowserApp.Model
 {
@@ -12,18 +8,39 @@ namespace AssemblyBrowserApp.Model
     {
         public FieldModel(FieldInformator informator)
         {
-            NodeResult = informator.Field.FieldType + " " + informator.Field.Name;
+            NodeResult = TypeModel.GetGeneric(informator.Field.FieldType) + " " + informator.Field.Name;
             ImagePath = "Images/Field.png";
-            if(informator.Field.IsPrivate)
+            if (informator.Field.IsPrivate)
             {
                 ImagePath = "Images/FieldPrivate.png";
-            } else if(informator.Field.IsAssembly)
+            }
+            else if (informator.Field.IsAssembly)
             {
                 ImagePath = "Images/FieldInternal.png";
-            } else if(informator.Field.IsFamily)
+            }
+            else if (informator.Field.IsFamily)
             {
                 ImagePath = "Images/FieldProtected.png";
             }
+            if (IsEnumConstant(informator.Field))
+            {
+                ImagePath = "Images/EnumerationItemPublic.png";
+            }
+
+
         }
+        private bool IsEnumConstant(FieldInfo field)
+        {
+            bool isEnumConstant = false;
+            if(field.FieldType.IsEnum)
+            {
+                string[] enumConstants = field.FieldType.GetEnumNames();
+                int i = 0;
+                for(i= 0; i < enumConstants.Length && !enumConstants[i].Equals(field.Name); i++)
+                {    }
+                isEnumConstant = i < enumConstants.Length;
+            }
+            return isEnumConstant;
+        }   
     }
 }

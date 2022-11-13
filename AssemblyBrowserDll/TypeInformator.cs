@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AssemblyBrowserDll
 {
@@ -16,8 +11,10 @@ namespace AssemblyBrowserDll
         public List<FieldInformator> Fields { get; }
         public List<MethodInformator> ExtensionMethods { get; }
         private Dictionary<Type, List<MethodInformator>> _extensions;
+        private BindingFlags _flags;
         public TypeInformator(Type type)
         {
+            _flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public | BindingFlags.FlattenHierarchy;
             this.type = type;
             Methods = new List<MethodInformator>();
             Properties = new List<PropertyInformator>();
@@ -33,9 +30,9 @@ namespace AssemblyBrowserDll
         {
             if (type == null || Methods == null)
                 return;
-            MethodInfo[] methods = type.GetMethods();
+            MethodInfo[] methods = type.GetMethods(_flags);
 
-            foreach(MethodInfo method in methods)
+            foreach (MethodInfo method in methods)
             {
                 bool extensionMethod = false;
                 try
@@ -63,10 +60,10 @@ namespace AssemblyBrowserDll
         }
         private void InitializeFields()
         {
-            if(type == null || Fields == null)
-                return ;
-            FieldInfo[] fields = type.GetFields();
-            foreach(FieldInfo field in fields)
+            if (type == null || Fields == null)
+                return;
+            FieldInfo[] fields = type.GetFields(_flags);
+            foreach (FieldInfo field in fields)
             {
                 Fields.Add(new FieldInformator(field));
             }
@@ -75,8 +72,8 @@ namespace AssemblyBrowserDll
         {
             if (type == null || Properties == null)
                 return;
-            PropertyInfo[] properties = type.GetProperties();
-            foreach(PropertyInfo property in properties)
+            PropertyInfo[] properties = type.GetProperties(_flags);
+            foreach (PropertyInfo property in properties)
             {
                 Properties.Add(new PropertyInformator(property));
             }
@@ -87,14 +84,14 @@ namespace AssemblyBrowserDll
         }
         public void AddExtensionMethod(MethodInformator methodInformator)
         {
-            if(methodInformator.CallingType == type && !Methods.Contains(methodInformator) && !Methods.Contains(methodInformator))
+            if (methodInformator.CallingType == type && !Methods.Contains(methodInformator) && !Methods.Contains(methodInformator))
             {
                 ExtensionMethods.Add(methodInformator);
             }
         }
         public void AddExtensionMethod(List<MethodInformator> methodInformators)
         {
-            foreach(MethodInformator method in methodInformators)
+            foreach (MethodInformator method in methodInformators)
             {
                 AddExtensionMethod(method);
             }

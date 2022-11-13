@@ -1,9 +1,4 @@
 ﻿using AssemblyBrowserDll;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AssemblyBrowserApp.Model
 {
@@ -11,7 +6,7 @@ namespace AssemblyBrowserApp.Model
     {
         public PropertyModel(PropertyInformator informator)
         {
-            NodeResult = informator.Property.PropertyType +" "+ informator.Property.Name;
+            NodeResult = TypeModel.GetGeneric(informator.Property.PropertyType) + " " + informator.Property.Name;
             ImagePath = "Images/Property.png";
         }
     }

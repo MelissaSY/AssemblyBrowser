@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AssemblyBrowserApp.Model;
+using Microsoft.Win32;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using AssemblyBrowserDll;
-using Microsoft.Win32;
-using AssemblyBrowserApp.Model;
 
 namespace AssemblyBrowserApp
 {
@@ -31,8 +25,8 @@ namespace AssemblyBrowserApp
         public string AssemblyPath
         {
             get { return _assemblyPath; }
-            set 
-            { 
+            set
+            {
                 _assemblyPath = value;
                 OnPropertyChanged("AssemblyPath");
             }
@@ -68,19 +62,19 @@ namespace AssemblyBrowserApp
             {
                 ModelNode = new InformatorModel(_assemblyPath).AssemblyModel;
                 AssemblyModel? model = ModelNode as AssemblyModel;
-                if(model != null)
+                if (model != null)
                 {
-                    if(model.ExceptionMessage != "")
+                    if (model.ExceptionMessage != "")
                     {
                         MessageBox.Show(model.ExceptionMessage, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }, canExecute => _assemblyPath != null);
         }
-        public void OnPropertyChanged([CallerMemberName]string prop = "")
+        public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
-       
+
     }
 }

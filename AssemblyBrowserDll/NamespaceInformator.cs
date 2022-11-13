@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AssemblyBrowserDll
+﻿namespace AssemblyBrowserDll
 {
     public class NamespaceInformator
     {
@@ -14,7 +8,7 @@ namespace AssemblyBrowserDll
         {
             this.Namespace = Namespace;
             this.types = new List<TypeInformator>();
-            foreach(Type type in types)
+            foreach (Type type in types)
             {
                 this.types.Add(new TypeInformator(type));
             }
@@ -22,11 +16,11 @@ namespace AssemblyBrowserDll
         public NamespaceInformator(string? Namespace, List<TypeInformator> types)
         {
             this.Namespace = Namespace;
-            this.types = new List<TypeInformator> (types);
+            this.types = new List<TypeInformator>(types);
         }
         public override string ToString()
         {
-            return Namespace != null ? Namespace: string.Empty;
+            return Namespace != null ? Namespace : string.Empty;
         }
     }
 }

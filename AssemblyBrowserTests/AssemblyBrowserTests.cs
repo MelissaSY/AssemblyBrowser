@@ -11,7 +11,7 @@ namespace AssemblyBrowserTests
 
         [Test]
         public void Test1()
-        {        }
+        { }
         [Test]
         public void ExtensionMethodTest()
         {

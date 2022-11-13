@@ -1,10 +1,5 @@
 ﻿using AssemblyBrowserDll;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AssemblyBrowserApp.Model
 {
@@ -16,7 +11,8 @@ namespace AssemblyBrowserApp.Model
             if (informator.IsExtension)
             {
                 ImagePath = "Images/ExtensionMethod.png";
-            } else if (informator.Method.IsPrivate)
+            }
+            else if (informator.Method.IsPrivate)
             {
                 ImagePath = "Images/MethodPrivate.png";
             }
@@ -35,7 +31,7 @@ namespace AssemblyBrowserApp.Model
             string[] stringParameters = new string[parameters.Length];
             for (int i = 0; i < parameters.Length; i++)
             {
-                stringParameters[i] = parameters[i].ParameterType.Name;
+                stringParameters[i] = TypeModel.GetGeneric(parameters[i].ParameterType);
             }
             return stringParameters;
         }
@@ -51,7 +47,7 @@ namespace AssemblyBrowserApp.Model
                     parametersType += $", {Parameters[i]}";
                 }
             }
-            return $"{informator.Method.ReturnType.Name} {informator.Method.Name}({parametersType})";
+            return $"{TypeModel.GetGeneric(informator.Method.ReturnType)} {informator.Method.Name}({parametersType})";
         }
     }
 }
