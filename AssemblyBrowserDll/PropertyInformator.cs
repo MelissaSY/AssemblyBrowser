@@ -9,9 +9,5 @@ namespace AssemblyBrowserDll
         {
             Property = property;
         }
-        public override string ToString()
-        {
-            return $"{Property.PropertyType} {Property.Name}";
-        }
     }
 }

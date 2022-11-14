@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.ObjectModel;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace AssemblyBrowserDll
@@ -6,30 +7,26 @@ namespace AssemblyBrowserDll
     public class TypeInformator
     {
         public Type type { get; }
-        public List<MethodInformator> Methods { get; }
-        public List<PropertyInformator> Properties { get; }
-        public List<FieldInformator> Fields { get; }
+        public ReadOnlyCollection<MethodInformator> Methods { get; }
+        public ReadOnlyCollection<PropertyInformator> Properties { get; }
+        public ReadOnlyCollection<FieldInformator> Fields { get; }
         public List<MethodInformator> ExtensionMethods { get; }
         private Dictionary<Type, List<MethodInformator>> _extensions;
         private BindingFlags _flags;
         public TypeInformator(Type type)
         {
-            _flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public | BindingFlags.FlattenHierarchy;
+            _flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly;
             this.type = type;
-            Methods = new List<MethodInformator>();
-            Properties = new List<PropertyInformator>();
-            Fields = new List<FieldInformator>();
             ExtensionMethods = new List<MethodInformator>();
             _extensions = new Dictionary<Type, List<MethodInformator>>();
 
-            InitializeMethods();
-            InitializeProperties();
-            InitializeFields();
+            Methods = new ReadOnlyCollection<MethodInformator>(InitializeMethods(type));
+            Fields = new ReadOnlyCollection<FieldInformator>(InitializeFields(type));
+            Properties = new ReadOnlyCollection<PropertyInformator>(InitializeProperties(type));
         }
-        private void InitializeMethods()
+        private List<MethodInformator> InitializeMethods(Type type)
         {
-            if (type == null || Methods == null)
-                return;
+            List<MethodInformator> methodInformators = new List<MethodInformator>();
             MethodInfo[] methods = type.GetMethods(_flags);
 
             foreach (MethodInfo method in methods)
@@ -39,44 +36,54 @@ namespace AssemblyBrowserDll
                 {
                     extensionMethod = method.IsDefined(typeof(ExtensionAttribute));
                 }
-                catch (Exception) { };
-                if (extensionMethod)
+                catch (Exception e) { };
+                if(!AssemblyInformator.IsCompilerGenerated(method))
                 {
-                    MethodInformator methodInformator = new MethodInformator(method, extensionMethod);
-                    if (methodInformator.CallingType != null)
+                    if (extensionMethod)
                     {
-                        if (!_extensions.ContainsKey(methodInformator.CallingType))
+                        MethodInformator methodInformator = new MethodInformator(method, extensionMethod);
+                        if (methodInformator.CallingType != null)
                         {
-                            _extensions.Add(methodInformator.CallingType, new List<MethodInformator>());
+                            if (!_extensions.ContainsKey(methodInformator.CallingType))
+                            {
+                                _extensions.Add(methodInformator.CallingType, new List<MethodInformator>());
+                            }
+                            _extensions[methodInformator.CallingType].Add(methodInformator);
                         }
-                        _extensions[methodInformator.CallingType].Add(methodInformator);
+                    }
+                    else
+                    {
+                        methodInformators.Add(new MethodInformator(method, extensionMethod));
                     }
                 }
-                else
-                {
-                    Methods.Add(new MethodInformator(method, extensionMethod));
-                }
             }
+            return methodInformators;
         }
-        private void InitializeFields()
+        private List<FieldInformator> InitializeFields(Type type)
         {
-            if (type == null || Fields == null)
-                return;
+            List<FieldInformator> fieldInformators = new List<FieldInformator>();
             FieldInfo[] fields = type.GetFields(_flags);
             foreach (FieldInfo field in fields)
             {
-                Fields.Add(new FieldInformator(field));
+                if (!AssemblyInformator.IsCompilerGenerated(field))
+                {
+                    fieldInformators.Add(new FieldInformator(field));
+                }
             }
+            return fieldInformators;
         }
-        private void InitializeProperties()
+        private List<PropertyInformator> InitializeProperties(Type type)
         {
-            if (type == null || Properties == null)
-                return;
+            List<PropertyInformator> propertyInformators = new List<PropertyInformator>();
             PropertyInfo[] properties = type.GetProperties(_flags);
             foreach (PropertyInfo property in properties)
             {
-                Properties.Add(new PropertyInformator(property));
+                if(!AssemblyInformator.IsCompilerGenerated(property))
+                {
+                    propertyInformators.Add(new PropertyInformator(property));
+                }
             }
+            return propertyInformators;
         }
         public Dictionary<Type, List<MethodInformator>> GetExtensionMethods()
         {
@@ -95,10 +102,6 @@ namespace AssemblyBrowserDll
             {
                 AddExtensionMethod(method);
             }
-        }
-        public override string ToString()
-        {
-            return type.Name;
         }
     }
 }

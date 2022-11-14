@@ -18,9 +18,5 @@
             this.Namespace = Namespace;
             this.types = new List<TypeInformator>(types);
         }
-        public override string ToString()
-        {
-            return Namespace != null ? Namespace : string.Empty;
-        }
     }
 }

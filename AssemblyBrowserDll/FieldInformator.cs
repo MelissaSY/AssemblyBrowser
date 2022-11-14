@@ -9,9 +9,5 @@ namespace AssemblyBrowserDll
         {
             Field = field;
         }
-        public override string ToString()
-        {
-            return $"{Field.FieldType} {Field.Name}";
-        }
     }
 }

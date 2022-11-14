@@ -3,21 +3,21 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AssemblyBrowserApp" d:DataContext="{d:DesignInstance Type=local:AssemblyInfoVM}"
+        xmlns:local="clr-namespace:AssemblyBrowserApp" d:DataContext="{d:DesignInstance Type=local:AssemblyInfoViewModel}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="AssemblyBrowser" Height="450" Width="800">
     <DockPanel>
         <DockPanel DockPanel.Dock="Top" Height="45" VerticalAlignment="Top">
             <Button Command="{Binding SearchAssemblyPath}" Content="Выбрать" Height="22" Width="70" DockPanel.Dock="Right" VerticalAlignment="Top" Margin="10"/>
             <TextBox Text="{Binding Path=AssemblyPath, UpdateSourceTrigger=PropertyChanged}" Height="22" DockPanel.Dock="Top" VerticalAlignment="Top" Margin="10"/>
         </DockPanel>
        
-        <Button Command="{Binding ApplyAssemblyPath}" Content="Применить" DockPanel.Dock="Right" Height="22" Width="70" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10"/>
-        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="10">
-            <Image MaxHeight="15" MaxWidth="15" Source="{Binding Path=ModelNode.ImagePath}"/>
-            <TextBlock Text="{Binding Path=ModelNode.NodeResult}"/>
+        <Button Command="{Binding ApplyAssemblyPath}" Content="Применить" DockPanel.Dock="Right" Height="22" Width="70" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10 0 10 0"/>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Height="22" Margin="10 0 10 0">
+            <Image MaxHeight="15" MaxWidth="15" Source="{Binding Path=AssemblyModel.ImagePath}"/>
+            <TextBlock Text="{Binding Path=AssemblyModel.NodeResult}"/>
         </StackPanel>
-        <TreeView ItemsSource="{Binding ModelNode.Children}" Margin="10">
+        <TreeView ItemsSource="{Binding AssemblyModel.Children}" Margin="10">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
                     <StackPanel Orientation="Horizontal">

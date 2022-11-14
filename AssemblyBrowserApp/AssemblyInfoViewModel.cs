@@ -6,10 +6,10 @@ using System.Windows;
 
 namespace AssemblyBrowserApp
 {
-    public class AssemblyInfoVM : INotifyPropertyChanged
+    public class AssemblyInfoViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        private ModelNode? _assemblyModel;
+        private AssemblyModel? _assemblyModel;
         public Command SearchAssemblyPath { get; }
         public Command ApplyAssemblyPath { get; }
         private string _assemblyPath = "";
@@ -31,26 +31,23 @@ namespace AssemblyBrowserApp
                 OnPropertyChanged("AssemblyPath");
             }
         }
-        public ModelNode? ModelNode
+        public AssemblyModel? AssemblyModel
         {
             get { return _assemblyModel; }
             set
             {
                 _assemblyModel = value;
-                OnPropertyChanged("ModelNode");
+                OnPropertyChanged("AssemblyModel");
             }
         }
-        public AssemblyModel? AssemblyModel
-        {
-            get { return _assemblyModel as AssemblyModel; }
-        }
-        public AssemblyInfoVM()
+        
+        public AssemblyInfoViewModel()
         {
             SearchAssemblyPath = new Command(openFile =>
             {
                 OpenFileDialog dialog = new OpenFileDialog();
-                dialog.DefaultExt = ".dll";
-                dialog.Filter = "Assemblies (.dll)|*.dll";
+                dialog.DefaultExt = ".dll; .exe";
+                dialog.Filter = "Assemblies (.dll, .exe)|*.dll;*.exe";
 
                 if (dialog.ShowDialog() == true)
                 {
@@ -60,15 +57,11 @@ namespace AssemblyBrowserApp
 
             ApplyAssemblyPath = new Command(apply =>
             {
-                ModelNode = new InformatorModel(_assemblyPath).AssemblyModel;
-                AssemblyModel? model = ModelNode as AssemblyModel;
-                if (model != null)
-                {
-                    if (model.ExceptionMessage != "")
-                    {
-                        MessageBox.Show(model.ExceptionMessage, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                }
+                AssemblyModel = new InformatorModel(_assemblyPath).AssemblyModel;
+               if (AssemblyModel.ExceptionMessage != "")
+               {
+                    MessageBox.Show(AssemblyModel.ExceptionMessage, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+               }
             }, canExecute => _assemblyPath != null);
         }
         public void OnPropertyChanged([CallerMemberName] string prop = "")

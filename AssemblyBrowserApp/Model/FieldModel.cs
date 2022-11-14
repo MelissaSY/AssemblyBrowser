@@ -8,7 +8,7 @@ namespace AssemblyBrowserApp.Model
     {
         public FieldModel(FieldInformator informator)
         {
-            NodeResult = TypeModel.GetGeneric(informator.Field.FieldType) + " " + informator.Field.Name;
+            NodeResult = InformatorModel.GetGeneric(informator.Field.FieldType) + " " + informator.Field.Name;
             ImagePath = "Images/Field.png";
             if (informator.Field.IsPrivate)
             {
@@ -26,8 +26,6 @@ namespace AssemblyBrowserApp.Model
             {
                 ImagePath = "Images/EnumerationItemPublic.png";
             }
-
-
         }
         private bool IsEnumConstant(FieldInfo field)
         {

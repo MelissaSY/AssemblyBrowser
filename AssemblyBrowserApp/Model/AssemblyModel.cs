@@ -1,4 +1,5 @@
 ﻿using AssemblyBrowserDll;
+using System.Reflection;
 
 namespace AssemblyBrowserApp.Model
 {
@@ -7,10 +8,10 @@ namespace AssemblyBrowserApp.Model
         public string ExceptionMessage { get; }
         public AssemblyModel(AssemblyInformator informator)
         {
-            NodeResult = informator.assemblyName == null ? "" : informator.assemblyName;
+            NodeResult = informator.AssemblyName == null ? "" : informator.AssemblyName;
             ImagePath = "Images/Assembly.png";
-            ExceptionMessage = informator.ExceptionMessage;
-            foreach (NamespaceInformator namespaceInformator in informator.namespaces)
+            ExceptionMessage = informator.ExceptionMessage == null ? "" : informator.ExceptionMessage.Message;
+            foreach (NamespaceInformator namespaceInformator in informator.Namespaces)
             {
                 Children.Add(new NamespaceModel(namespaceInformator));
             }

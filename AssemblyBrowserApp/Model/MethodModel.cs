@@ -1,4 +1,5 @@
 ﻿using AssemblyBrowserDll;
+using System;
 using System.Reflection;
 
 namespace AssemblyBrowserApp.Model
@@ -26,19 +27,33 @@ namespace AssemblyBrowserApp.Model
             }
             NodeResult = ComposeSignature(informator);
         }
-        private string[] GetParameters(ParameterInfo[] parameters)
-        {
-            string[] stringParameters = new string[parameters.Length];
-            for (int i = 0; i < parameters.Length; i++)
-            {
-                stringParameters[i] = TypeModel.GetGeneric(parameters[i].ParameterType);
-            }
-            return stringParameters;
-        }
         private string ComposeSignature(MethodInformator informator)
         {
             string parametersType = "";
-            var Parameters = GetParameters(informator.GetActualParameters());
+            ParameterInfo[] parameters = informator.GetActualParameters();
+            string[] Parameters = new string[parameters.Length];
+            string result = $"{InformatorModel.GetGeneric(informator.Method.ReturnType)} {informator.Method.Name}";
+            for(int i = 0; i < parameters.Length; i++)
+            {
+                Parameters[i] = InformatorModel.GetGeneric(parameters[i].ParameterType);
+                if (parameters[i].ParameterType.IsByRef)
+                {
+                    Parameters[i]= Parameters[i].Replace("&", "");
+                    if (parameters[i].IsIn)
+                    {
+                        Parameters[i] = Parameters[i].Insert(0, "in ");
+                    }
+                    else if (parameters[i].IsOut)
+                    {
+                        Parameters[i] = Parameters[i].Insert(0, "out ");
+                    } 
+                    else
+                    {
+                        Parameters[i] = Parameters[i].Insert(0, "ref ");
+                    }
+
+                }
+            }
             if (Parameters.Length > 0)
             {
                 parametersType = Parameters[0];
@@ -47,7 +62,18 @@ namespace AssemblyBrowserApp.Model
                     parametersType += $", {Parameters[i]}";
                 }
             }
-            return $"{TypeModel.GetGeneric(informator.Method.ReturnType)} {informator.Method.Name}({parametersType})";
+            if(informator.Method.IsGenericMethod)
+            {
+                Type[] genericArguments = informator.Method.GetGenericArguments();
+
+                result += $"<{genericArguments[0].Name}";
+                for(int i = 1; i <genericArguments.Length; i++)
+                {
+                    result += $", {genericArguments[i].Name}";
+                }
+                result += ">";
+            }
+            return $"{result}({parametersType})";
         }
     }
 }

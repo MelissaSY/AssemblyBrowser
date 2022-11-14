@@ -34,18 +34,5 @@ namespace AssemblyBrowserDll
             _parameters.CopyTo(parameters, 0);
             return parameters;
         }
-        public override string ToString()
-        {
-            string parametersType = "";
-            if (_parameters.Length > 0)
-            {
-                parametersType = _parameters[0].ParameterType.ToString();
-                for (int i = 1; i < _parameters.Length; i++)
-                {
-                    parametersType += $", {_parameters[i].ParameterType}";
-                }
-            }
-            return $"{Method.ReturnType} {Method.Name}({parametersType})";
-        }
     }
 }

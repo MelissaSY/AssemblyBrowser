@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Page Include="App.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\AssemblyBrowserDll\AssemblyBrowserDll.csproj" />
   </ItemGroup>
 
