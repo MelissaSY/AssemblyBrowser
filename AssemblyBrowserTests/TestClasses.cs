@@ -22,11 +22,11 @@
     }
     public static class TestMethods
     {
-        public static string GetFullname(this TestProperties testName)
+        public static string TestExtensionMethod(this TestProperties testName)
         {
             return testName.InternalGet + " " + testName.PrivateSet + " " + testName.ProtecteSet;
         }
-        public static void TestExtensionMethod(this TestProperties testName, out int a, in int b, ref int c)
+        public static void TestExtensionMethod_2(this TestProperties testName, out int a, in int b, ref int c)
         {
             a = b;
             c = a;
@@ -68,6 +68,7 @@
             Protected = ProtecteSet;
         }
     }
+    
     namespace TestNestedNamespace
     {
         internal class TestInternalClass

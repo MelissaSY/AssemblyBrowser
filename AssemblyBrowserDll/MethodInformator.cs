@@ -2,7 +2,7 @@
 
 namespace AssemblyBrowserDll
 {
-    public class MethodInformator
+    public class MethodInformator : MemberInformator
     {
         public Type? CallingType { get; }
         private ParameterInfo[] _parameters;
@@ -22,6 +22,7 @@ namespace AssemblyBrowserDll
                 CallingType = method.DeclaringType;
                 _parameters = method.GetParameters();
             }
+            Member = method;
             Method = method;
         }
         /// <summary>

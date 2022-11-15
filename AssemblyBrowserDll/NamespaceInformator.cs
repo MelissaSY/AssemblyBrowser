@@ -1,22 +1,26 @@
-﻿namespace AssemblyBrowserDll
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+
+namespace AssemblyBrowserDll
 {
     public class NamespaceInformator
     {
         public string? Namespace { get; }
-        public List<TypeInformator> types { get; }
+        public ReadOnlyCollection<TypeInformator> types { get; }
         public NamespaceInformator(string? Namespace, List<Type> types)
         {
             this.Namespace = Namespace;
-            this.types = new List<TypeInformator>();
+            List<TypeInformator> Types = new List<TypeInformator>();
             foreach (Type type in types)
             {
-                this.types.Add(new TypeInformator(type));
+                Types.Add(new TypeInformator(type));
             }
+            this.types = new ReadOnlyCollection<TypeInformator>(Types);
         }
         public NamespaceInformator(string? Namespace, List<TypeInformator> types)
         {
             this.Namespace = Namespace;
-            this.types = new List<TypeInformator>(types);
+            this.types = new ReadOnlyCollection<TypeInformator>(types);
         }
     }
 }
