@@ -20,7 +20,6 @@ namespace AssemblyBrowserTests
 
             _assemblyInformator = new AssemblyInformator(Assembly.GetExecutingAssembly().Location);
         }
-
         [Test]
         public void Namespaces_Count_Names()
         {
@@ -42,7 +41,6 @@ namespace AssemblyBrowserTests
             Assert.That(namespaces.Contains("AssemblyBrowserTests"), "AssemblyBrowserTests namespce is missing");
             Assert.That(namespaces.Contains("AssemblyBrowserTests.TestNestedNamespace"), "TestNestedNamespace namespace is missing");
         }
-        
         [Test]
         public void AssemblyBrowserTests_Contains_TestClasses()
         {
@@ -94,19 +92,32 @@ namespace AssemblyBrowserTests
             Assert.That(containsProtecteSet, "ProtecteSet not found as the property of TestProperties class");
         }
         [Test]
-        public void ExtensionMethodTest()
+        public void TestMethods_ExtensionMethodTest()
         {
             int namespaceNum = GetNamespaceNum(_assemblyInformator, "AssemblyBrowserTests");
+            int namespaceSystemNum = GetNamespaceNum(_assemblyInformator, "System");
+
             NamespaceInformator informator = _assemblyInformator.Namespaces[namespaceNum];
+            NamespaceInformator systemInformator = _assemblyInformator.Namespaces[namespaceSystemNum];
+
             int typeNum = GetTypeNum(informator, typeof(TestProperties));
+            int stringTypeNum = GetTypeNum(systemInformator, typeof(string));
+
+
             TypeInformator typeInformator = informator.types[typeNum];
+            TypeInformator stringTypeInformator = systemInformator.types[stringTypeNum];
+
             MethodInfo extensionMethod = (typeof(TestMethods)).GetMethod("TestExtensionMethod");
             MethodInfo extensionMethod_2 = (typeof(TestMethods)).GetMethod("TestExtensionMethod_2");
+            MethodInfo stringExtensionMethod = (typeof(TestMethods)).GetMethod("TestExtension_3");
+
             bool containsExtensionMethod = ContainsMember(extensionMethod, typeInformator.ExtensionMethods.ToArray());
             bool containsExtensionMethod_2 = ContainsMember(extensionMethod_2, typeInformator.ExtensionMethods.ToArray());
+            bool containsStringExtensionMethod = ContainsMember(stringExtensionMethod, stringTypeInformator.ExtensionMethods.ToArray());
 
             Assert.That(containsExtensionMethod, "TestExtensionMethod not found in extesion methods of the type");
             Assert.That(containsExtensionMethod_2, "TestExtensionMethod_2 not found in extesion methods of the type");
+            Assert.That(containsStringExtensionMethod, "TestExtension_3 not found in string class");
         }
         [Test]
         public void AssemblyBrowserTests_Contains_NonPublicNestedClasses()

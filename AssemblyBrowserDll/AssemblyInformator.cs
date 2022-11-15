@@ -43,17 +43,21 @@ namespace AssemblyBrowserDll
                         Types.Add(type, new TypeInformator(type));
                     }
                 }
+
+                Dictionary<Type, TypeInformator> NewTypes = new Dictionary<Type, TypeInformator>(Types);
                 foreach (KeyValuePair<Type, TypeInformator> type in Types)
                 {
                     var extensionMethods = type.Value.GetExtensionMethods();
                     foreach (KeyValuePair<Type, List<MethodInformator>> typeExtensions in extensionMethods)
                     {
-                        if (Types.ContainsKey(typeExtensions.Key))
+                        if (!Types.ContainsKey(typeExtensions.Key))
                         {
-                            Types[typeExtensions.Key].AddExtensionMethod(typeExtensions.Value);
+                            NewTypes.Add(typeExtensions.Key, new TypeInformator(typeExtensions.Key));
                         }
+                        NewTypes[typeExtensions.Key].AddExtensionMethod(typeExtensions.Value);
                     }
                 }
+                Types = NewTypes;
                 foreach (KeyValuePair<Type, TypeInformator> type in Types)
                 {
                     if (type.Key.Namespace != null)

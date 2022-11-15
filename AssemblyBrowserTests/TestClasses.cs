@@ -31,6 +31,10 @@
             a = b;
             c = a;
         }
+        public static void TestExtension_3(this string s)
+        {
+
+        }
         private static readonly (int, char, decimal, string, byte, bool, uint, long, double, float, DateTime)[]? values;
     }
     public class TestNestedClass
