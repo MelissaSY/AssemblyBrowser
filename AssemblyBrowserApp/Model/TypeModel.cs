@@ -46,8 +46,7 @@ namespace AssemblyBrowserApp.Model
                 try
                 {
                     Children.Add(new PropertyModel(property));
-                }
-                catch(Exception) { }
+                } catch(Exception) { }
             }
             foreach (FieldInformator field in informator.Fields)
             {
@@ -68,7 +67,7 @@ namespace AssemblyBrowserApp.Model
                 try
                 {
                     Children.Add(new MethodModel(extension));
-                }catch (Exception) { }
+                } catch (Exception) { }
             }
         }
     }

@@ -9,6 +9,7 @@ namespace AssemblyBrowserApp.Model
         public FieldModel(FieldInformator informator)
         {
             NodeResult = InformatorModel.GetGeneric(informator.Field.FieldType) + " " + informator.Field.Name;
+
             ImagePath = "Field.png";
             if (informator.Field.IsPrivate)
             {
