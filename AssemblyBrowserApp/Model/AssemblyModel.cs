@@ -1,5 +1,4 @@
 ﻿using AssemblyBrowserDll;
-using System.Reflection;
 
 namespace AssemblyBrowserApp.Model
 {

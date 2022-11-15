@@ -1,7 +1,7 @@
 ﻿using AssemblyBrowserDll;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System;
 
 namespace AssemblyBrowserApp.Model
 {

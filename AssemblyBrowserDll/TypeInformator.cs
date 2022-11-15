@@ -15,7 +15,7 @@ namespace AssemblyBrowserDll
         private BindingFlags _flags;
         public TypeInformator(Type type)
         {
-            _flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly;
+            _flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public;
             this.type = type;
             ExtensionMethods = new List<MethodInformator>();
             _extensions = new Dictionary<Type, List<MethodInformator>>();
@@ -37,7 +37,7 @@ namespace AssemblyBrowserDll
                     extensionMethod = method.IsDefined(typeof(ExtensionAttribute));
                 }
                 catch (Exception e) { };
-                if(!AssemblyInformator.IsCompilerGenerated(method))
+                if (!AssemblyInformator.IsCompilerGenerated(method))
                 {
                     if (extensionMethod)
                     {
@@ -78,7 +78,7 @@ namespace AssemblyBrowserDll
             PropertyInfo[] properties = type.GetProperties(_flags);
             foreach (PropertyInfo property in properties)
             {
-                if(!AssemblyInformator.IsCompilerGenerated(property))
+                if (!AssemblyInformator.IsCompilerGenerated(property))
                 {
                     propertyInformators.Add(new PropertyInformator(property));
                 }

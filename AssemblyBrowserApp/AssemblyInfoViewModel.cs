@@ -40,14 +40,14 @@ namespace AssemblyBrowserApp
                 OnPropertyChanged("AssemblyModel");
             }
         }
-        
+
         public AssemblyInfoViewModel()
         {
             SearchAssemblyPath = new Command(openFile =>
             {
                 OpenFileDialog dialog = new OpenFileDialog();
-                dialog.DefaultExt = ".dll; .exe";
-                dialog.Filter = "Assemblies (.dll, .exe)|*.dll;*.exe";
+                dialog.DefaultExt = ".dll";
+                dialog.Filter = "Assemblies (.dll)|*.dll";
 
                 if (dialog.ShowDialog() == true)
                 {
@@ -58,10 +58,10 @@ namespace AssemblyBrowserApp
             ApplyAssemblyPath = new Command(apply =>
             {
                 AssemblyModel = new InformatorModel(_assemblyPath).AssemblyModel;
-               if (AssemblyModel.ExceptionMessage != "")
-               {
+                if (AssemblyModel.ExceptionMessage != "")
+                {
                     MessageBox.Show(AssemblyModel.ExceptionMessage, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
-               }
+                }
             }, canExecute => _assemblyPath != null);
         }
         public void OnPropertyChanged([CallerMemberName] string prop = "")

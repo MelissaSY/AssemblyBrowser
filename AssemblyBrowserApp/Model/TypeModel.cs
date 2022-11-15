@@ -1,7 +1,5 @@
 ﻿using AssemblyBrowserDll;
 using System;
-using System.Collections.Generic;
-using System.Reflection;
 
 namespace AssemblyBrowserApp.Model
 {
@@ -46,28 +44,32 @@ namespace AssemblyBrowserApp.Model
                 try
                 {
                     Children.Add(new PropertyModel(property));
-                } catch(Exception) { }
+                }
+                catch (Exception) { }
             }
             foreach (FieldInformator field in informator.Fields)
             {
                 try
                 {
                     Children.Add(new FieldModel(field));
-                } catch(Exception) { }
+                }
+                catch (Exception) { }
             }
             foreach (MethodInformator method in informator.Methods)
             {
                 try
                 {
                     Children.Add(new MethodModel(method));
-                } catch(Exception) { }
+                }
+                catch (Exception) { }
             }
             foreach (MethodInformator extension in informator.ExtensionMethods)
             {
                 try
                 {
                     Children.Add(new MethodModel(extension));
-                } catch (Exception) { }
+                }
+                catch (Exception) { }
             }
         }
     }

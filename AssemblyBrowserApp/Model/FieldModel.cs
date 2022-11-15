@@ -1,5 +1,4 @@
 ﻿using AssemblyBrowserDll;
-using System;
 using System.Reflection;
 
 namespace AssemblyBrowserApp.Model
@@ -31,15 +30,15 @@ namespace AssemblyBrowserApp.Model
         private bool IsEnumConstant(FieldInfo field)
         {
             bool isEnumConstant = false;
-            if(field.FieldType.IsEnum)
+            if (field.FieldType.IsEnum)
             {
                 string[] enumConstants = field.FieldType.GetEnumNames();
                 int i = 0;
-                for(i= 0; i < enumConstants.Length && !enumConstants[i].Equals(field.Name); i++)
-                {    }
+                for (i = 0; i < enumConstants.Length && !enumConstants[i].Equals(field.Name); i++)
+                { }
                 isEnumConstant = i < enumConstants.Length;
             }
             return isEnumConstant;
-        }   
+        }
     }
 }

@@ -38,7 +38,7 @@ namespace AssemblyBrowserDll
                 List<Type> types = assembly.GetTypes().ToList();
                 foreach (Type type in types)
                 {
-                    if(!IsCompilerGenerated(type))
+                    if (!IsCompilerGenerated(type))
                     {
                         Types.Add(type, new TypeInformator(type));
                     }
@@ -85,7 +85,7 @@ namespace AssemblyBrowserDll
             }
             return (namespaces, noNamespaceTypes);
         }
-        
+
         public static bool IsCompilerGenerated(MemberInfo memberInfo)
         {
             bool isCompilerGenerated = false;
@@ -93,7 +93,7 @@ namespace AssemblyBrowserDll
             {
                 isCompilerGenerated = memberInfo.IsDefined(typeof(CompilerGeneratedAttribute));
             }
-            catch(Exception e) { }
+            catch (Exception e) { }
             return isCompilerGenerated;
         }
     }
