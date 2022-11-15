@@ -108,6 +108,40 @@ namespace AssemblyBrowserTests
             Assert.That(containsExtensionMethod, "TestExtensionMethod not found in extesion methods of the type");
             Assert.That(containsExtensionMethod_2, "TestExtensionMethod_2 not found in extesion methods of the type");
         }
+        [Test]
+        public void AssemblyBrowserTests_Contains_NonPublicNestedClasses()
+        {
+            int namespaceNum = GetNamespaceNum(_assemblyInformator, "AssemblyBrowserTests");
+            NamespaceInformator informator = _assemblyInformator.Namespaces[namespaceNum];
+            int typesNum = informator.types.Count; 
+
+            bool containsTestPrivateNestedClass = GetTypeNum(informator, "TestPrivateNestedClass") < typesNum;
+            bool containsIPrivateNested = GetTypeNum(informator, "IPrivateNested") < typesNum;
+            bool containsIProtectedNested = GetTypeNum(informator, "IProtectedNested") < typesNum;
+            bool containsIInternalNested = GetTypeNum(informator, "IInternalNested") < typesNum;
+
+            Assert.That(containsTestPrivateNestedClass, "TestPrivateNestedClass not found in AssemblyBrowserTests");
+            Assert.That(containsIPrivateNested, "IPrivateNested not found in AssemblyBrowserTests");
+            Assert.That(containsIProtectedNested, "IProtectedNested not found in AssemblyBrowserTests");
+            Assert.That(containsIInternalNested, "IInternalNested not found in AssemblyBrowserTests");
+        }
+        [Test]
+        public void TestProperties_Contains_NonPublicProperties()
+        {
+            int namespaceNum = GetNamespaceNum(_assemblyInformator, "AssemblyBrowserTests");
+            NamespaceInformator informator = _assemblyInformator.Namespaces[namespaceNum];
+            int typeNum = GetTypeNum(informator, "TestProperties");
+
+            TypeInformator typeInformator = informator.types[typeNum];
+
+            bool containsPrivate = ContainsMember(typeInformator.Properties.ToArray(), "Private", typeof(string).Name);
+            bool containsInternal = ContainsMember(typeInformator.Properties.ToArray(), "Internal", typeof(string).Name);
+            bool containsProtected = ContainsMember(typeInformator.Properties.ToArray(), "Protected", typeof(string).Name);
+           
+            Assert.That(containsPrivate, "Property Private not found in TestProperties");
+            Assert.That(containsInternal, "Property Internal not found in TestProperties");
+            Assert.That(containsProtected, "Property Protected not found in TestProperties");
+        }
         private int GetNamespaceNum(AssemblyInformator informator, string namespaceName)
         {
             int num = 0;
@@ -128,11 +162,31 @@ namespace AssemblyBrowserTests
             }
             return num;
         }
+        private int GetTypeNum(NamespaceInformator informator, string name)
+        {
+            int num = 0;
+            while (num < informator.types.Count &&
+                !informator.types[num].type.Name.Equals(name))
+            {
+                num++;
+            }
+            return num;
+        }
         private bool ContainsMember(MemberInfo memberInfo, MemberInformator[] members)
         {
             int num = 0;
             while (num < members.Length &&
                 members[num].Member.MetadataToken != memberInfo.MetadataToken)
+            {
+                num++;
+            }
+            return num < members.Length;
+        }
+        private bool ContainsMember(MemberInformator[] members, string memeberName, string memberType)
+        {
+            int num = 0;
+            while (num < members.Length &&
+                members[num].Member.Name != memeberName && members[num].Member.GetType().Name != memberType)
             {
                 num++;
             }

@@ -46,9 +46,11 @@
         public string PrivateSet { get; private set; }
         public string InternalGet { internal get; set; }
         public string ProtecteSet { get; protected set; }
+       
         private string Private { get; }
         internal string Internal { get; set; }
         protected string Protected { get; set; }
+        
         public TestProperties(string privateSet, string internalGet, string protectedSet)
         {
             PrivateSet = privateSet;
