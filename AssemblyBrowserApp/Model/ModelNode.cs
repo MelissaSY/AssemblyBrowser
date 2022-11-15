@@ -8,12 +8,13 @@ namespace AssemblyBrowserApp.Model
     {
         public string NodeResult { get; protected set; }
         private string _imagePath;
+        private string _imagesDirectory = Path.GetFullPath("Images");
         public string ImagePath
         {
             get { return _imagePath; }
             protected set
             {
-                _imagePath = Path.GetFullPath(value);
+                _imagePath = Path.Combine(_imagesDirectory, value);
             }
         }
         public ObservableCollection<ModelNode> Children { get; protected set; }
@@ -21,7 +22,7 @@ namespace AssemblyBrowserApp.Model
         {
             Children = new ObservableCollection<ModelNode>();
             NodeResult = String.Empty;
-            _imagePath = Path.GetFullPath("Images/Assembly.png");
+            _imagePath = _imagesDirectory;
         }
     }
 }

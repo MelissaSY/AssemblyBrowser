@@ -9,22 +9,22 @@ namespace AssemblyBrowserApp.Model
         public FieldModel(FieldInformator informator)
         {
             NodeResult = InformatorModel.GetGeneric(informator.Field.FieldType) + " " + informator.Field.Name;
-            ImagePath = "Images/Field.png";
+            ImagePath = "Field.png";
             if (informator.Field.IsPrivate)
             {
-                ImagePath = "Images/FieldPrivate.png";
+                ImagePath = "FieldPrivate.png";
             }
             else if (informator.Field.IsAssembly)
             {
-                ImagePath = "Images/FieldInternal.png";
+                ImagePath = "FieldInternal.png";
             }
             else if (informator.Field.IsFamily)
             {
-                ImagePath = "Images/FieldProtected.png";
+                ImagePath = "FieldProtected.png";
             }
             if (IsEnumConstant(informator.Field))
             {
-                ImagePath = "Images/EnumerationItemPublic.png";
+                ImagePath = "EnumerationItemPublic.png";
             }
         }
         private bool IsEnumConstant(FieldInfo field)

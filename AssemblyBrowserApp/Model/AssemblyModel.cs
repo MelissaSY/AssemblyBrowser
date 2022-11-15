@@ -9,7 +9,7 @@ namespace AssemblyBrowserApp.Model
         public AssemblyModel(AssemblyInformator informator)
         {
             NodeResult = informator.AssemblyName == null ? "" : informator.AssemblyName;
-            ImagePath = "Images/Assembly.png";
+            ImagePath = "Assembly.png";
             ExceptionMessage = informator.ExceptionMessage == null ? "" : informator.ExceptionMessage.Message;
             foreach (NamespaceInformator namespaceInformator in informator.Namespaces)
             {

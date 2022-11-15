@@ -7,7 +7,7 @@ namespace AssemblyBrowserApp.Model
         public NamespaceModel(NamespaceInformator informator)
         {
             NodeResult = informator.Namespace == null ? "" : informator.Namespace;
-            ImagePath = "Images/Namespace.png";
+            ImagePath = "Namespace.png";
 
             foreach (TypeInformator typeInformator in informator.types)
             {

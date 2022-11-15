@@ -16,17 +16,17 @@ namespace AssemblyBrowserApp.Model
             if (informator.type.IsInterface)
             {
                 typeType = "Interface";
-                ImagePath = "Images/Interface.png";
+                ImagePath = "Interface.png";
             }
             else if (informator.type.IsEnum)
             {
                 typeType = "Enumeration";
-                ImagePath = "Images/EnumerationPublic.png";
+                ImagePath = "EnumerationPublic.png";
             }
             else if (informator.type.IsValueType)
             {
                 typeType = "Structure";
-                ImagePath = "Images/Structure.png";
+                ImagePath = "Structure.png";
             }
             if (informator.type.IsNestedFamily)
             {
@@ -40,22 +40,35 @@ namespace AssemblyBrowserApp.Model
             {
                 typeAccess = "Internal";
             }
-            ImagePath = $"Images/{typeType}{typeAccess}.png";
+            ImagePath = $"{typeType}{typeAccess}.png";
             foreach (PropertyInformator property in informator.Properties)
             {
-                Children.Add(new PropertyModel(property));
+                try
+                {
+                    Children.Add(new PropertyModel(property));
+                }
+                catch(Exception) { }
             }
             foreach (FieldInformator field in informator.Fields)
             {
-                Children.Add(new FieldModel(field));
+                try
+                {
+                    Children.Add(new FieldModel(field));
+                } catch(Exception) { }
             }
             foreach (MethodInformator method in informator.Methods)
             {
-                Children.Add(new MethodModel(method));
+                try
+                {
+                    Children.Add(new MethodModel(method));
+                } catch(Exception) { }
             }
             foreach (MethodInformator extension in informator.ExtensionMethods)
             {
-                Children.Add(new MethodModel(extension));
+                try
+                {
+                    Children.Add(new MethodModel(extension));
+                }catch (Exception) { }
             }
         }
     }

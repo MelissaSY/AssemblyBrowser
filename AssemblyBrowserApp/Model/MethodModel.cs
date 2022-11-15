@@ -8,22 +8,22 @@ namespace AssemblyBrowserApp.Model
     {
         public MethodModel(MethodInformator informator)
         {
-            ImagePath = "Images/Method.png";
+            ImagePath = "Method.png";
             if (informator.IsExtension)
             {
-                ImagePath = "Images/ExtensionMethod.png";
+                ImagePath = "ExtensionMethod.png";
             }
             else if (informator.Method.IsPrivate)
             {
-                ImagePath = "Images/MethodPrivate.png";
+                ImagePath = "MethodPrivate.png";
             }
             else if (informator.Method.IsAssembly)
             {
-                ImagePath = "Images/MethodInternal.png";
+                ImagePath = "MethodInternal.png";
             }
             else if (informator.Method.IsFamily)
             {
-                ImagePath = "Images/MethodProtected.png";
+                ImagePath = "MethodProtected.png";
             }
             NodeResult = ComposeSignature(informator);
         }

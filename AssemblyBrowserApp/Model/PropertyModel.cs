@@ -23,23 +23,23 @@ namespace AssemblyBrowserApp.Model
             {
                 NodeResult += " {" + getSet + "}";
             }
-            ImagePath = "Images/Property.png";
+            ImagePath = "Property.png";
             if(getter.Contains("private") && setter.Contains("private") || 
                 getter.Contains("private") && setter.Equals(""))
             {
-                ImagePath = "Images/PropertyPrivate.png";
+                ImagePath = "PropertyPrivate.png";
                 NodeResult = NodeResult.Replace("private ", "");
             } 
             else if (getter.Contains("protected") && setter.Contains("protected") ||
                 getter.Contains("protected") && setter.Equals(""))
             {
-                ImagePath = "Images/PropertyProtected.png";
+                ImagePath = "PropertyProtected.png";
                 NodeResult = NodeResult.Replace("protected ", "");
             }
             else if (getter.Contains("internal") && setter.Contains("internal") ||
                 getter.Contains("internal") && setter.Equals(""))
             {
-                ImagePath = "Images/PropertyInternal.png";
+                ImagePath = "PropertyInternal.png";
                 NodeResult = NodeResult.Replace("internal ", "");
             }
         }
